@@ -12,3 +12,7 @@ function useDebounce(callback, delay) {
     [delay],
   )
 }
+
+/*
+With ref, do not need to include in deps array, because ref not trigger re-render 
+ */
