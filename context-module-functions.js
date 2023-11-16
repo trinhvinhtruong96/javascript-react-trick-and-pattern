@@ -1,13 +1,14 @@
 // Context Module Functions
+// The Context Module Functions Pattern allows you to encapsulate a complex set of state changes into a utility function which can be tree-shaken and lazily loaded.
 // http://localhost:3000/isolated/final/01.js from epic react
 
 import * as React from 'react'
-import {dequal} from 'dequal'
+import { dequal } from 'dequal'
 
 // ./context/user-context.js
 
 import * as userClient from './context-module-function/user-client'
-import {useAuth} from './context-module-function/auth-context'
+import { useAuth } from './context-module-function/auth-context'
 
 
 const UserContext = React.createContext()
@@ -18,7 +19,7 @@ function userReducer(state, action) {
     case 'start update': {
       return {
         ...state,
-        user: {...state.user, ...action.updates},
+        user: { ...state.user, ...action.updates },
         status: 'pending',
         storedUser: state.user,
       }
@@ -54,8 +55,8 @@ function userReducer(state, action) {
   }
 }
 
-function UserProvider({children}) {
-  const {user} = useAuth()
+function UserProvider({ children }) {
+  const { user } = useAuth()
   const [state, dispatch] = React.useReducer(userReducer, {
     status: null,
     error: null,
@@ -77,13 +78,13 @@ function useUser() {
 // got this idea from Dan and I love it:
 // https://twitter.com/dan_abramov/status/1125773153584676864
 async function updateUser(dispatch, user, updates) {
-  dispatch({type: 'start update', updates})
+  dispatch({ type: 'start update', updates })
   try {
     const updatedUser = await userClient.updateUser(user, updates)
-    dispatch({type: 'finish update', updatedUser})
+    dispatch({ type: 'finish update', updatedUser })
     return updatedUser
   } catch (error) {
-    dispatch({type: 'fail update', error})
+    dispatch({ type: 'fail update', error })
     return Promise.reject(error)
   }
 }
@@ -93,7 +94,7 @@ async function updateUser(dispatch, user, updates) {
 // src/screens/user-profile.js
 // import {UserProvider, useUser, updateUser} from './context/user-context'
 function UserSettings() {
-  const [{user, status, error}, userDispatch] = useUser()
+  const [{ user, status, error }, userDispatch] = useUser()
 
   const isPending = status === 'pending'
   const isRejected = status === 'rejected'
@@ -103,7 +104,7 @@ function UserSettings() {
   const isChanged = !dequal(user, formState)
 
   function handleChange(e) {
-    setFormState({...formState, [e.target.name]: e.target.value})
+    setFormState({ ...formState, [e.target.name]: e.target.value })
   }
 
   function handleSubmit(event) {
@@ -115,8 +116,8 @@ function UserSettings() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{marginBottom: 12}}>
-        <label style={{display: 'block'}} htmlFor="username">
+      <div style={{ marginBottom: 12 }}>
+        <label style={{ display: 'block' }} htmlFor="username">
           Username
         </label>
         <input
@@ -125,11 +126,11 @@ function UserSettings() {
           disabled
           readOnly
           value={formState.username}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
         />
       </div>
-      <div style={{marginBottom: 12}}>
-        <label style={{display: 'block'}} htmlFor="tagline">
+      <div style={{ marginBottom: 12 }}>
+        <label style={{ display: 'block' }} htmlFor="tagline">
           Tagline
         </label>
         <input
@@ -137,11 +138,11 @@ function UserSettings() {
           name="tagline"
           value={formState.tagline}
           onChange={handleChange}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
         />
       </div>
-      <div style={{marginBottom: 12}}>
-        <label style={{display: 'block'}} htmlFor="bio">
+      <div style={{ marginBottom: 12 }}>
+        <label style={{ display: 'block' }} htmlFor="bio">
           Biography
         </label>
         <textarea
@@ -149,7 +150,7 @@ function UserSettings() {
           name="bio"
           value={formState.bio}
           onChange={handleChange}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
         />
       </div>
       <div>
@@ -157,7 +158,7 @@ function UserSettings() {
           type="button"
           onClick={() => {
             setFormState(user)
-            userDispatch({type: 'reset'})
+            userDispatch({ type: 'reset' })
           }}
           disabled={!isChanged || isPending}
         >
@@ -170,19 +171,19 @@ function UserSettings() {
           {isPending
             ? '...'
             : isRejected
-            ? '✖ Try again'
-            : isChanged
-            ? 'Submit'
-            : '✔'}
+              ? '✖ Try again'
+              : isChanged
+                ? 'Submit'
+                : '✔'}
         </button>
-        {isRejected ? <pre style={{color: 'red'}}>{error.message}</pre> : null}
+        {isRejected ? <pre style={{ color: 'red' }}>{error.message}</pre> : null}
       </div>
     </form>
   )
 }
 
 function UserDataDisplay() {
-  const [{user}] = useUser()
+  const [{ user }] = useUser()
   return <pre>{JSON.stringify(user, null, 2)}</pre>
 }
 
