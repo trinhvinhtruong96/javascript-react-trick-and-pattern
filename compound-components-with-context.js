@@ -3,7 +3,7 @@
 // http://localhost:3000/isolated/final/03.js from epic react
 
 import * as React from 'react'
-import { Switch } from '../switch'
+import { Switch } from './components/switch'
 
 const ToggleContext = React.createContext()
 ToggleContext.displayName = 'ToggleContext'

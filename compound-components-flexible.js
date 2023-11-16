@@ -6,7 +6,7 @@
 // http://localhost:3000/isolated/final/02.extra-1.js from epic react
 
 import * as React from 'react'
-import {Switch} from '../switch'
+import {Switch} from './components/switch'
 
 function Toggle({children}) {
   const [on, setOn] = React.useState(false)
