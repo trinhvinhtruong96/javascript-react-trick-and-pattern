@@ -1,6 +1,6 @@
 // Flexible Compound Components with context
 // Instead of passing props through Compound Component, use context make it cleaner
-// http://localhost:3000/isolated/final/03.js
+// http://localhost:3000/isolated/final/03.js from epic react
 
 import * as React from 'react'
 import { Switch } from '../switch'

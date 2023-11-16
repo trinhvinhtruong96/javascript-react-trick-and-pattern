@@ -3,7 +3,7 @@
 // The Compound Components Pattern enables you to provide a set of components that implicitly share state for a simple yet powerful declarative API for reusable components.
 // Compound components are components that work together to form a complete UI.
 // The example have toggle title and toggle button that share state to work together.
-// http://localhost:3000/isolated/final/02.extra-1.js
+// http://localhost:3000/isolated/final/02.extra-1.js from epic react
 
 import * as React from 'react'
 import {Switch} from '../switch'
