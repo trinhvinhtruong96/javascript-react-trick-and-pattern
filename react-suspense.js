@@ -1,5 +1,6 @@
 // Simple Data-fetching
-// http://localhost:3000/isolated/final/01.js
+// Visit this github for more detail
+// https://github.com/trinhvinhtruong96/react-suspense
 
 import * as React from 'react'
 import { fetchPokemon, PokemonDataView } from '../pokemon'
